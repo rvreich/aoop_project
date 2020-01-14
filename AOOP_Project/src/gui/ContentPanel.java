@@ -37,6 +37,7 @@ public class ContentPanel extends JPanel{
 	private JTextField searchField;
 	private JButton searchButton;
 	private JTextArea resultArea;
+	private JTextArea resultWordArea;
 	private JTextArea recentSearchArea;
 	private String temp = "";
 	private JList<String> recentSearchList;
@@ -242,6 +243,7 @@ public class ContentPanel extends JPanel{
 						System.out.println(rs.getString("word"));
 						String name = rs.getString("word");
 						String definition = rs.getString("definition");
+						resultWordArea.setText(word);
 						resultArea.setText(definition);
 						recentSearchListModel.addElement(name);
 						if(recentSearchListModel.size() > 10){
@@ -280,13 +282,16 @@ public class ContentPanel extends JPanel{
 		resultPanel.setLayout(new BorderLayout());
 		
 		Font font = new Font("Courier", Font.BOLD,30);
+		resultWordArea = new JTextArea(10, 10);
+		resultWordArea.setFont(font);
 		resultArea = new JTextArea(10, 10);
 		resultArea.setEditable(false);
 		resultArea.setLineWrap(true);
 		resultArea.setFont(font);
 //		resultPanel.setFont(font);
 		
-		resultPanel.add(resultArea);
+		resultPanel.add(resultWordArea, BorderLayout.NORTH);
+		resultPanel.add(resultArea, BorderLayout.SOUTH);
 		lowerPane.add(resultPanel);
 		lowerPane.setFont(font);
 	}

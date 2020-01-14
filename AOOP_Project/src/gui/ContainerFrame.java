@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Dimension;
+import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -20,7 +21,9 @@ public class ContainerFrame{
 		mf.setSize(new Dimension(1366,768));	// minimum allowed screen size
 		try {
 			//set icon for the frame
-			mf.setIconImage(ImageIO.read(getClass().getResource("/book.png")));
+//			System.out.println(getClass().getClassLoader().getResource("PAANCI").toString());
+			System.out.println(new File(System.getProperty("user.dir") + "/AOOP_Project/res/book.png").getAbsolutePath());
+			mf.setIconImage(ImageIO.read(new File(System.getProperty("user.dir") + "/res/book.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

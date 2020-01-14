@@ -10,15 +10,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.imageio.ImageIO;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -35,6 +38,9 @@ public class ContentPanel extends JPanel{
 	private JButton searchButton;
 	private JTextArea resultArea;
 	private JTextArea recentSearchArea;
+	private String temp = "";
+	private JList<String> recentSearchList;
+	private DefaultListModel<String> recentSearchListModel;
 	
 	public ContentPanel(JFrame frame) {
 		this.setLayout(new BorderLayout());
@@ -100,7 +106,6 @@ public class ContentPanel extends JPanel{
 			
 			@Override
 			public void mousePressed(MouseEvent e) {
-				
 			}
 			
 			@Override
@@ -115,13 +120,14 @@ public class ContentPanel extends JPanel{
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				credentials.dispose();
 				Register(frame);
+				credentials.dispose();
+				
 			}
 		});
 		
 		try {
-			credentials.setIconImage(ImageIO.read(getClass().getResource("/book.png")));
+			credentials.setIconImage(ImageIO.read(new File(System.getProperty("user.dir") + "/res/book.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -145,8 +151,8 @@ public class ContentPanel extends JPanel{
 				String p = password.getText().toString();
 				Database db = Database.getInstance();
 				db.insertUserTable(u, p);
-				LogIn(frame);
 				JOptionPane.showMessageDialog(frame, "Successfully Registered!!");
+				LogIn(frame);
 				register.dispose();
 			}
 		});
@@ -190,7 +196,7 @@ public class ContentPanel extends JPanel{
 		register.add(regis);
 		register.add(login);
 		try {
-			register.setIconImage(ImageIO.read(getClass().getResource("/book.png")));
+			register.setIconImage(ImageIO.read(new File(System.getProperty("user.dir") + "/res/book.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -233,6 +239,17 @@ public class ContentPanel extends JPanel{
 				ResultSet rs = db.getSingleContent(word);
 				try {
 					if(rs.next()) {
+						System.out.println(rs.getString("word"));
+						String name = rs.getString("word");
+						String definition = rs.getString("definition");
+						resultArea.setText(definition);
+						recentSearchListModel.addElement(name);
+						if(recentSearchListModel.size() > 10){
+							recentSearchListModel.remove(0);
+						}
+//						recentSearchArea.setText(recentSearchList);
+						//upperPane.add(resultArea);
+						//upperPane.setVisible(true);
 						
 					}
 				} catch (Exception ex) {
@@ -260,17 +277,33 @@ public class ContentPanel extends JPanel{
 		JPanel resultPanel = new JPanel();
 		resultPanel.setPreferredSize(new Dimension(766,525));
 		resultPanel.setBackground(Color.YELLOW);
+		resultPanel.setLayout(new BorderLayout());
 		
+		Font font = new Font("Courier", Font.BOLD,30);
 		resultArea = new JTextArea(10, 10);
 		resultArea.setEditable(false);
+		resultArea.setLineWrap(true);
+		resultArea.setFont(font);
+//		resultPanel.setFont(font);
 		
+		resultPanel.add(resultArea);
 		lowerPane.add(resultPanel);
+		lowerPane.setFont(font);
 	}
 	
 	public void addRecentSearchComponent(JPanel lowerPane) {
 		JPanel recentSearch = new JPanel();
 		recentSearch.setPreferredSize(new Dimension(250, 525));
 		recentSearch.setBackground(Color.RED);
+		recentSearch.setLayout(new BorderLayout());
+		
+		recentSearchListModel = new DefaultListModel<>();
+//		recentSearchArea = new JTextArea(10,5);
+//		recentSearchArea.setEditable(false);
+		recentSearchList = new JList<>(recentSearchListModel);
+		
+		
+		recentSearch.add(recentSearchList);
 		lowerPane.add(recentSearch);
 	}
 	

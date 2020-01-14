@@ -41,7 +41,7 @@ public class Database {
 	}
 	
 	public void insertUserTable(String username, String password) {
-		String sql = "INSERT INTO usertable (Username, Password) VALUES (?,?)";
+		String sql = "INSERT INTO usertable (Username, Password, CrimeValue) VALUES (?,?,0)";
 		try {
 			ps = con.prepareStatement(sql);
 			ps.setString(1, username);

@@ -23,7 +23,7 @@ public class ContainerFrame{
 			//set icon for the frame
 //			System.out.println(getClass().getClassLoader().getResource("PAANCI").toString());
 			System.out.println(new File(System.getProperty("user.dir") + "/AOOP_Project/res/book.png").getAbsolutePath());
-			mf.setIconImage(ImageIO.read(new File(System.getProperty("user.dir") + "/res/book.png")));
+			mf.setIconImage(ImageIO.read(new File(System.getProperty("user.dir") + "/AOOP_Project/res/book.png")));
 		} catch (IOException e) {
 //			e.printStackTrace();
 		}

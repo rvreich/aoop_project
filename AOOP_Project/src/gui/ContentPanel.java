@@ -12,6 +12,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -20,7 +21,9 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -65,6 +68,7 @@ public class ContentPanel extends JPanel{
 	public void LogIn(JFrame frame) {
 		
 		JDialog credentials = new JDialog();
+		JPanel pane = new JPanel();
 		JTextField username = new JTextField(10);
 		JPasswordField password = new JPasswordField(10);
 		JButton login = new JButton("Login");
@@ -72,20 +76,28 @@ public class ContentPanel extends JPanel{
 		JLabel user = new JLabel("username: ");
 		JLabel pass = new JLabel("password: ");
 		JLabel regs = new JLabel("register");
+		JLabel title = new JLabel("Simple Dictionary For Kids");
+		ImageIcon icon = new ImageIcon("AOOP_Project/res/dict.png");
+		JLabel img_label = new JLabel(icon);
 		credentials.setTitle("Login");
-		credentials.setLayout(new GridLayout(4, 2));
+		credentials.setLayout(new GridLayout(2, 2));
 		credentials.setSize(new Dimension(300,300));
 		credentials.setLocationRelativeTo(frame);
 		credentials.setModal(true);
+		credentials.add(img_label);
+		credentials.add(title);
 		user.setLabelFor(username);
 		pass.setLabelFor(password);
-		credentials.add(user);
-		credentials.add(username);
-		credentials.add(pass);
-		credentials.add(password);
-		credentials.add(login);
-		credentials.add(regs);
-		credentials.add(forgotpass);
+		pane.setLayout(new GridLayout(4, 2));
+		pane.setBorder(BorderFactory.createEmptyBorder(0, 25, 25, 0));
+		pane.add(user);
+		pane.add(username);
+		pane.add(pass);
+		pane.add(password);
+		pane.add(login);
+		pane.add(regs);
+		pane.add(forgotpass);
+		credentials.add(pane);
 		
 		login.addActionListener(new ActionListener() {
 			
@@ -169,7 +181,7 @@ public class ContentPanel extends JPanel{
 		});
 		
 		try {
-			credentials.setIconImage(ImageIO.read(new File(System.getProperty("user.dir") + "/res/book.png")));
+			credentials.setIconImage(ImageIO.read(new File(System.getProperty("user.dir") + "/AOOP_Project/res/book.png")));
 		} catch (IOException e) {
 //			e.printStackTrace();
 		}
@@ -179,12 +191,16 @@ public class ContentPanel extends JPanel{
 	
 	public void Register(JFrame frame) {
 		JDialog register = new JDialog();
+		JPanel pane = new JPanel();
 		JLabel user = new JLabel("username: ");
 		JLabel pass = new JLabel("password: ");
 		JLabel login = new JLabel("login");
 		JTextField username = new JTextField(10);
 		JTextField password = new JTextField(10);
 		JButton regis = new JButton("Register");
+		JLabel title = new JLabel("Simple Dictionary For Kids");
+		ImageIcon icon = new ImageIcon("AOOP_Project/res/dict.png");
+		JLabel img_label = new JLabel(icon);
 		regis.addActionListener(new ActionListener() {
 			
 			@Override
@@ -228,17 +244,22 @@ public class ContentPanel extends JPanel{
 		});
 		register.setTitle("Register");
 		register.setSize(new Dimension(300,300));
-		register.setLayout(new GridLayout(4, 2));
+		register.setLayout(new GridLayout(2, 2));
 		register.setLocationRelativeTo(frame);
 		register.setModal(true);
-		register.add(user);
-		register.add(username);
-		register.add(pass);
-		register.add(password);
-		register.add(regis);
-		register.add(login);
+		register.add(img_label);
+		register.add(title);
+		pane.setLayout(new GridLayout(4, 2));
+		pane.setBorder(BorderFactory.createEmptyBorder(0, 25, 25, 0));
+		pane.add(user);
+		pane.add(username);
+		pane.add(pass);
+		pane.add(password);
+		pane.add(regis);
+		pane.add(login);
+		register.add(pane);
 		try {
-			register.setIconImage(ImageIO.read(new File(System.getProperty("user.dir") + "/res/book.png")));
+			register.setIconImage(ImageIO.read(new File(System.getProperty("user.dir") + "/AOOP_Project/res/book.png")));
 		} catch (IOException e) {
 //			e.printStackTrace();
 		}
@@ -318,7 +339,7 @@ public class ContentPanel extends JPanel{
 		changepassword.add(changepass);
 		changepassword.add(login);
 		try {
-			changepassword.setIconImage(ImageIO.read(new File(System.getProperty("user.dir") + "/res/book.png")));
+			changepassword.setIconImage(ImageIO.read(new File(System.getProperty("user.dir") + "/AOOP_Project/res/book.png")));
 		} catch (IOException e) {
 //			e.printStackTrace();
 		}

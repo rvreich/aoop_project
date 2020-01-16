@@ -58,11 +58,12 @@ public class ContentPanel extends JPanel{
 		JTextField username = new JTextField(10);
 		JPasswordField password = new JPasswordField(10);
 		JButton login = new JButton("Login");
+		JLabel forgotpass = new JLabel("Forgot Password");
 		JLabel user = new JLabel("username: ");
 		JLabel pass = new JLabel("password: ");
 		JLabel regs = new JLabel("register");
 		credentials.setTitle("Login");
-		credentials.setLayout(new GridLayout(3, 2));
+		credentials.setLayout(new GridLayout(4, 2));
 		credentials.setSize(new Dimension(300,300));
 		credentials.setLocationRelativeTo(frame);
 		credentials.setModal(true);
@@ -74,6 +75,7 @@ public class ContentPanel extends JPanel{
 		credentials.add(password);
 		credentials.add(login);
 		credentials.add(regs);
+		credentials.add(forgotpass);
 		
 		login.addActionListener(new ActionListener() {
 			
@@ -93,7 +95,7 @@ public class ContentPanel extends JPanel{
 						JOptionPane.showMessageDialog(frame, "Wrong Credentials");
 					}
 				} catch (SQLException e1) {
-					e1.printStackTrace();
+//					e1.printStackTrace();
 				}
 			}
 		});
@@ -127,10 +129,39 @@ public class ContentPanel extends JPanel{
 			}
 		});
 		
+		forgotpass.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ChangePass(frame);
+				credentials.dispose();
+				
+			}
+		});
+		
 		try {
 			credentials.setIconImage(ImageIO.read(new File(System.getProperty("user.dir") + "/res/book.png")));
 		} catch (IOException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 		credentials.pack();
 		credentials.setVisible(true);
@@ -187,7 +218,7 @@ public class ContentPanel extends JPanel{
 		});
 		register.setTitle("Register");
 		register.setSize(new Dimension(300,300));
-		register.setLayout(new GridLayout(3, 2));
+		register.setLayout(new GridLayout(4, 2));
 		register.setLocationRelativeTo(frame);
 		register.setModal(true);
 		register.add(user);
@@ -199,10 +230,90 @@ public class ContentPanel extends JPanel{
 		try {
 			register.setIconImage(ImageIO.read(new File(System.getProperty("user.dir") + "/res/book.png")));
 		} catch (IOException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 		register.pack();
 		register.setVisible(true);
+	}
+	
+	public void ChangePass(JFrame frame) {
+		JDialog changepassword = new JDialog();
+		JLabel user = new JLabel("username: ");
+		JLabel pass = new JLabel("Old password: ");
+		JLabel passconf = new JLabel("New password: ");
+		JButton changepass = new JButton("Change Password");
+		JTextField username = new JTextField(10);
+		JTextField password = new JTextField(10);
+		JTextField passwordconf = new JTextField(10);
+		JLabel login = new JLabel("Login");
+		changepass.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String u = username.getText().toString();
+				String p = password.getText().toString();
+				String pc = passwordconf.getText().toString();
+				Database db = Database.getInstance();
+				boolean updated = db.UpdateUserTable(u, p, pc);
+				if(updated){
+					JOptionPane.showMessageDialog(frame, "Successfully Changed Password!!");
+					changepassword.dispose();					
+					LogIn(frame);
+				}
+				else {
+					JOptionPane.showMessageDialog(frame, "You inputed wrong old password");
+				}
+//				db.insertUserTable(u, p);
+			}
+		});
+		login.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				changepassword.dispose();
+				LogIn(frame);
+			}
+		});
+		changepassword.setTitle("Change Password");
+		changepassword.setSize(new Dimension(300,300));
+		changepassword.setLayout(new GridLayout(4, 2));
+		changepassword.setLocationRelativeTo(frame);
+		changepassword.setModal(true);
+		changepassword.add(user);
+		changepassword.add(username);
+		changepassword.add(pass);
+		changepassword.add(password);
+		changepassword.add(passconf);
+		changepassword.add(passwordconf);
+		changepassword.add(changepass);
+		changepassword.add(login);
+		try {
+			changepassword.setIconImage(ImageIO.read(new File(System.getProperty("user.dir") + "/res/book.png")));
+		} catch (IOException e) {
+//			e.printStackTrace();
+		}
+		changepassword.pack();
+		changepassword.setVisible(true);
 	}
 	
 	public void addComponent() {
@@ -255,7 +366,7 @@ public class ContentPanel extends JPanel{
 						
 					}
 				} catch (Exception ex) {
-					ex.printStackTrace();
+//					ex.printStackTrace();
 				}
 			}
 		});

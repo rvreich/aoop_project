@@ -25,7 +25,7 @@ public class ContainerFrame{
 			System.out.println(new File(System.getProperty("user.dir") + "/AOOP_Project/res/book.png").getAbsolutePath());
 			mf.setIconImage(ImageIO.read(new File(System.getProperty("user.dir") + "/res/book.png")));
 		} catch (IOException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 		mf.setTitle("Simple Dictionary For Kids");
 		mf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

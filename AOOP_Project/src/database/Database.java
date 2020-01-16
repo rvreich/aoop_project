@@ -103,4 +103,30 @@ public class Database {
 		}
 		return rs;
 	}
+	
+	public boolean UpdateUserTable(String username, String password, String newpassword){
+		ResultSet rs = getSingleUserCredential(username, password);
+		try {
+			if(!rs.next()){
+				return false;
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+//			System.out.println("no next");
+//			return false;
+		}
+		
+		String sql = "UPDATE usertable SET Password = ? where Username = ?";
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setString(1, newpassword);
+			ps.setString(2, username);
+			ps.executeUpdate();
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("gagal");
+		}
+		return true;
+	}
 }

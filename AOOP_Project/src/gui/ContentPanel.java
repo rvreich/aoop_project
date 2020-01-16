@@ -8,12 +8,16 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
@@ -42,10 +46,16 @@ public class ContentPanel extends JPanel{
 	private String temp = "";
 	private JList<String> recentSearchList;
 	private DefaultListModel<String> recentSearchListModel;
+	Set<String> s;
 	
 	public ContentPanel(JFrame frame) {
 		this.setLayout(new BorderLayout());
 		this.setBackground(Color.BLACK);
+		s = new TreeSet<String>();
+		s.add("aardvark");
+		s.add("abacus");
+		s.add("abalone");
+		s.add("absolute");
 		while(ContainerFrame.isLoggedIn == false) {
 			LogIn(frame);
 		}
@@ -374,6 +384,41 @@ public class ContentPanel extends JPanel{
 		searchField = new JTextField();
 		searchField.setPreferredSize(new Dimension(750,125));
 		searchField.setFont(new Font("Courier", Font.PLAIN, 25));
+		searchField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent evt) {
+				// TODO Auto-generated method stub
+				if(evt.getKeyCode() != KeyEvent.VK_BACK_SPACE && evt.getKeyCode() != KeyEvent.VK_DELETE){
+					String to_check = searchField.getText();
+					int len = to_check.length();
+					for (String data : s) {
+						if(len > data.length()) continue;
+						String check_data ="";
+						for(int i = 0 ; i < len; i++){
+							check_data = check_data + data.charAt(i);
+						}
+						if(to_check.equals(check_data)){
+							searchField.setText(data);
+							searchField.setSelectionStart(len);
+							searchField.setSelectionEnd(data.length());
+						}
+					}			
+				}
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		ppad.add(searchField);
 		ppad.add(searchButton);
 		
@@ -429,4 +474,24 @@ public class ContentPanel extends JPanel{
 		miscComp.setBackground(Color.CYAN);
 		lowerPane.add(miscComp);
 	}
+	
+//	private void jTextFieldKeyReleased(java.awt.event.KeyEvent evt){
+//		if(evt.getKeyCode() != KeyEvent.VK_BACK_SPACE && evt.getKeyCode() != KeyEvent.VK_DELETE){
+//			String to_check = searchField.getText();
+//			int len = to_check.length();
+//			for (String data : s) {
+//				if(len > data.length()) continue;
+//				String check_data ="";
+//				for(int i = 0 ; i < len; i++){
+//					check_data = check_data + data.charAt(i);
+//				}
+//				if(to_check.equals(check_data)){
+//					searchField.setText(data);
+//					searchField.setSelectionStart(len);
+//					searchField.setSelectionEnd(data.length());
+//				}
+//			}			
+//		}
+//		
+//	}
 }
